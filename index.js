@@ -1,9 +1,9 @@
-console.log('hello you');
-var myName = 'max';
+console.log("hello you");
+var myName = "max";
 var myRealAge;
 myRealAge = 27;
 // myRealAge = '27';
-var hobbies = ['cookied', 'running'];
+var hobbies = ["cookied", "running"];
 // the type is infered because hobbies was initialized with an array
 // hobbies=[100];
 // overwrite the assigned type
@@ -30,10 +30,10 @@ console.log(car);
 function getname(name) {
     return name;
 }
-console.log(getname('imran'));
+console.log(getname("imran"));
 // void
 function sayHello() {
-    console.log('Hello');
+    console.log("Hello");
     // nothing is returned
     // will error if you do try to return something
 }
