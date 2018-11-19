@@ -45,7 +45,46 @@ console.log(multiply(2, 4));
 /* function types means it can be assigned to variables */
 // let myMultiply;
 var myMultiply;
-myMultiply = sayHello; // this errors as the function signatures don't match
+// myMultiply = sayHello; // this errors as the function signatures don't match
 myMultiply = multiply;
 /* the above is not strict because any function can be assigned to the let
 better to specify a function signature */
+// objects
+var userDate = {
+    name: "imran",
+    age: 3
+};
+// complex types
+var complex = {
+    data: [1, 2, 3],
+    output: function (all) {
+        return this.data;
+    }
+};
+var monkey;
+// unions types
+//  used to specify a fixed list of possible types
+var realRealAge;
+// check types
+var finalValue = 30;
+if (typeof finalValue == "number") {
+    console.log("Final value is a number");
+}
+// never - for a function that is never is reached, it never returns
+// because it returns an error
+function neverReturns() {
+    throw new Error("An error");
+}
+var bankAccount = {
+    money: 2000,
+    deposit: function (value) {
+        this.money += value;
+    }
+};
+var myself = {
+    name: "Max",
+    bankAccount: bankAccount,
+    hobbies: ["Sports", "Cooking"]
+};
+myself.bankAccount.deposit(3000);
+console.log(myself);
