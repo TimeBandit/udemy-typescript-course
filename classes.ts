@@ -2,32 +2,57 @@ class Person {
   // public by default
   name: String;
   // cannot be accessed from outside
-  private type: String;
+  private type: String = 'Entity';
   // can only be accessed by descendants
-  protected age: number;
+  protected age: number = 17;
 
   constructor(
-    name: string,
-    type: string,
-    age: number,
-    public username: string // shortcut for defining properties
+    name: String,
+    public username: String // shortcut for defining properties
     ){
-    this.name=name;
-    this.type='human';
-    this.age=age;
+    this.name = name;
   }
 
+  // methods can also be private & protected
   printAge(){
     console.log(this.age);
   }
 
-  setType(type: string){
+  setType(type: String){
     this.type = type;
+    console.log(this.type);    
   }
 }
 
+const myPerson = new Person('imran', 'human');
 
-const myPerson = new Person('imran', 'human', 4);
+// print person
+console.log(myPerson);
+// accessing a protected member
+myPerson.printAge();
+// accessing a private member
+myPerson.setType('elephant');
 
-console.log('myPerson :', myPerson);
-console.log('myPerson.type :', myPerson.type);
+class SuperHuman extends Person {
+  secret: String = 'Kryptonite can kill him';
+  // name overwrites the value passed in the constructor
+  // name: String = 'Kalel';
+  
+  // if you create your own constructor you must call the 
+  // parents constructor
+  constructor(name: String, username: String){
+    super(name, username);
+    // can access the inherited protected member
+    this.age = 1000;
+  }
+}
+
+const superman = new SuperHuman('superman','hero');
+console.log(superman);
+
+
+// getter & setters
+class Plant {
+  private _species: String ;
+  private temp: string;
+}
