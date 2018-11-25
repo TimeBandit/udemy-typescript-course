@@ -98,7 +98,7 @@ function neverReturns(): never {
 // be nullified
 
 type BankAccount = { money: number; deposit: (value: number) => void };
-type Person = { name: string; bankAccount: BankAccount; hobbies: string[] };
+type Person1 = { name: string; bankAccount: BankAccount; hobbies: string[] };
 
 let bankAccount: BankAccount = {
 	money: 2000,
