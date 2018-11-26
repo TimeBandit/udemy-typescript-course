@@ -61,3 +61,40 @@ let plant = new Plant();
 console.log(plant.species);
 plant.species = "Fern";
 console.log(plant.species);
+// static properties and methods
+class Helpers {
+    static calcCircumference(diameter) {
+        return this.PI * diameter;
+    }
+}
+// static means that it can be accessed without instantiation
+// good for creating helper classes
+Helpers.PI = 3.145;
+console.log(2 * Helpers.PI);
+console.log(Helpers.calcCircumference(8));
+// abstract classes
+// can't be instantiated, can only inherit from
+// useful for classes that need some basic setup
+// abstract on a class means it needs to be extended
+// abstract on a method means this method needs to be implemented
+// in the child class using the function type setup given
+class Project {
+    constructor() {
+        this.projectName = "Default";
+        this.budget = 1000;
+    }
+    calcBudget() {
+        return this.budget * 2;
+    }
+}
+;
+class ITProject extends Project {
+    changeName(name) {
+        this.projectName = name;
+    }
+}
+;
+let newProject = new ITProject();
+console.log(newProject);
+newProject.changeName("Dam");
+console.log(newProject);
