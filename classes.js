@@ -87,14 +87,27 @@ class Project {
         return this.budget * 2;
     }
 }
-;
 class ITProject extends Project {
     changeName(name) {
         this.projectName = name;
     }
 }
-;
-let newProject = new ITProject();
-console.log(newProject);
-newProject.changeName("Dam");
-console.log(newProject);
+let proj1 = new ITProject();
+let proj2 = new ITProject();
+proj1.changeName("Dam");
+console.log(proj1);
+console.log(proj2);
+// private constructors
+class OnlyOne {
+    constructor(name) {
+        this.name = name;
+    }
+    static getInstance() {
+        if (!OnlyOne.instance) {
+            OnlyOne.instance = new OnlyOne("The Only One");
+        }
+        return OnlyOne.instance;
+    }
+}
+let wrong = new OnlyOne("The only one");
+let right = OnlyOne.getInstance();
