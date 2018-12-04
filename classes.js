@@ -98,6 +98,7 @@ proj1.changeName("Dam");
 console.log(proj1);
 console.log(proj2);
 // private constructors
+// allows you to create a singleton class
 class OnlyOne {
     constructor(name) {
         this.name = name;
@@ -109,5 +110,6 @@ class OnlyOne {
         return OnlyOne.instance;
     }
 }
-let wrong = new OnlyOne("The only one");
+// 👇 can't instantiate because the constructor is private
+// let wrong = new OnlyOne("The only one");
 let right = OnlyOne.getInstance();
