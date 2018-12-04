@@ -113,3 +113,5 @@ class OnlyOne {
 // 👇 can't instantiate because the constructor is private
 // let wrong = new OnlyOne("The only one");
 let right = OnlyOne.getInstance();
+// readonly properties
+console.log(right);

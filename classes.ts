@@ -119,7 +119,7 @@ console.log(proj2);
 // allows you to create a singleton class
 class OnlyOne {
   private static instance: OnlyOne;
-  private constructor(public name: string) {}
+  private constructor(public readonly name: string) {}
   static getInstance() {
     if (!OnlyOne.instance) {
       OnlyOne.instance = new OnlyOne("The Only One");
@@ -132,3 +132,5 @@ class OnlyOne {
 // let wrong = new OnlyOne("The only one");
 
 let right = OnlyOne.getInstance();
+// readonly properties
+console.log(right);
