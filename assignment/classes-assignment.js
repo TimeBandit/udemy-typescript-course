@@ -39,12 +39,16 @@ console.log(mycar.acceleration);
 // };
 // console.log(rectangle.calcSize());
 class Base {
+    // derived class will have access to these as long as they
+    // are public or protected
     constructor(width, height) {
         this.width = width;
         this.height = height;
     }
 }
 class Rectangle extends Base {
+    // this is optional because the base constructor will
+    // be called by default 👇
     constructor(width, height) {
         super(width, height);
     }

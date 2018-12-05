@@ -19,7 +19,7 @@ class CarClass {
     this._name = name;
   }
   public accelerate(value: number) {
-    this.acceleration = value;
+    this.acceleration = value + value;
   }
 
   public honk(): void {
@@ -34,23 +34,27 @@ mycar.accelerate(10);
 console.log(mycar.acceleration);
 
 // Exercise 2 - Two objects, based on each other ...
-var baseObject = {
-  width: 0,
-  length: 0
-};
-var rectangle = Object.create(baseObject);
-rectangle.width = 5;
-rectangle.length = 2;
-rectangle.calcSize = function() {
-  return this.width * this.length;
-};
-console.log(rectangle.calcSize());
+// var baseObject = {
+//   width: 0,
+//   length: 0
+// };
+// var rectangle = Object.create(baseObject);
+// rectangle.width = 5;
+// rectangle.length = 2;
+// rectangle.calcSize = function() {
+//   return this.width * this.length;
+// };
+// console.log(rectangle.calcSize());
 
 class Base {
+  // derived class will have access to these as long as they
+  // are public or protected
   constructor(public width: number, public height: number) {}
 }
 
 class Rectangle extends Base {
+  // this is optional because the base constructor will
+  // be called by default 👇
   constructor(width: number, height: number) {
     super(width, height);
   }
@@ -81,8 +85,29 @@ console.log(myRect.calcSize());
 //   enumerable: true,
 //   configurable: true
 // });
-// console.log(person.firstName);
-// person.firstName = "Ma";
-// console.log(person.firstName);
-// person.firstName = "Maximilian";
-// console.log(person.firstName);
+
+class APerson {
+  private _firstName: string = "default";
+  private _lastName: string = "default";
+
+  set firstName(value: string) {
+    this._firstName = value;
+  }
+  get firstName() {
+    return this._firstName;
+  }
+
+  set lastName(value: string) {
+    this._lastName = value;
+  }
+  get lastName() {
+    return this._lastName;
+  }
+}
+
+const newPerson = new APerson();
+console.log(newPerson.firstName);
+newPerson.firstName = "Ma";
+console.log(newPerson.firstName);
+newPerson.firstName = "Maximilian";
+console.log(newPerson.firstName);
