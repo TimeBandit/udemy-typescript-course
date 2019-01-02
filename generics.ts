@@ -1,4 +1,4 @@
-console.log("Generics ⛹");
+console.log("Generics ☃");
 // GENERICS
 
 /* 
@@ -18,7 +18,7 @@ it always returns the change in the exact currency it received
 */
 
 function echo(data: any) {
-  return data;
+	return data;
 }
 
 console.log(echo("Max").length);
@@ -27,29 +27,52 @@ console.log(echo(27).length);
 console.log(echo({ name: "imran", age: 97 }));
 
 // Better Generic
+// does not have to be T, can be any character
 // the '<T>' makes it a generic function, give me the type and then i will use it
+// it will infer it from the type of the argument
 function betterEcho<T>(data: T) {
-  return data;
+	return data;
 }
 
 // Generics make it possible for the editors to suggest the correct properties
 // better ide support
-console.log(betterEcho(27).length);
+// console.log(betterEcho(27).length);
 // you can explicitly state what type you are going to use
-console.log(betterEcho<number>("27"));
+// console.log(betterEcho<number>("27"));
 
 // BUILT IN GENERICS
 
 // testResultz: number[]
 const testResultz: Array<number> = [1.94, 2.33];
 testResultz.push(-2.99);
-testResultz.push("strings");
+// testResultz.push("strings");
 
 // Arrays
 function printAll<T>(args: T[]) {
-  args.forEach(elements => {
-    console.log(elements);
-  });
+	args.forEach(elements => {
+		console.log(elements);
+	});
 }
 
 printAll<string>(["apple", "banana"]);
+
+// Generic Types
+// const name : type  = assignment
+console.log("aloha");
+
+const echo2: <T>(data: T) => T = echo;
+console.log(echo2<string>("Something"));
+
+// Generic Class
+class SimpleMath<T extends number | string> {
+	baseValue: T;
+	multiplyValue: T;
+	calculate(): number {
+		return +this.baseValue * +this.multiplyValue;
+	}
+}
+
+const simpleMath = new SimpleMath<string>();
+simpleMath.baseValue = "10";
+simpleMath.multiplyValue = "20";
+console.log(simpleMath.calculate());

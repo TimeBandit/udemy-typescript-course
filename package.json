@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/TimeBandit/udemy-typescript-course#readme",
   "devDependencies": {
+    "eslint": "^5.11.1",
     "live-server": "^1.2.0"
-  }
+  },
+  "dependencies": {}
 }
