@@ -64,15 +64,28 @@ const echo2: <T>(data: T) => T = echo;
 console.log(echo2<string>("Something"));
 
 // Generic Class
-class SimpleMath<T extends number | string> {
-	baseValue: T;
-	multiplyValue: T;
-	calculate(): number {
-		return +this.baseValue * +this.multiplyValue;
-	}
-}
+// the extended makes it generics
+// class SimpleMath<T extends number | string> {
+//   baseValue: T;
+// 	multiplyValue: T;
+// 	calculate(): number {
+//     return +this.baseValue * +this.multiplyValue;
+// 	}
+// }
 
 const simpleMath = new SimpleMath<string>();
 simpleMath.baseValue = "10";
 simpleMath.multiplyValue = "20";
 console.log(simpleMath.calculate());
+
+// using more than one generic type
+// this means that T should be the same type as U, so they are strictly linked
+// and not seperate
+// class SimpleMath<T extends U | string, U extends number | string>
+class SimpleMath<T extends number | string, U extends number | string> {
+	baseValue: T;
+	multiplyValue: U;
+	calculate(): number {
+		return +this.baseValue * +this.multiplyValue;
+	}
+}
