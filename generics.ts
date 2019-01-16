@@ -18,25 +18,26 @@ it always returns the change in the exact currency it received
 */
 
 function echo(data: any) {
-	return data;
+ return data;
 }
 
 console.log(echo("Max").length);
-// get no ts warning that length prop is not valid, hence the need for generics
-console.log(echo(27).length);
-console.log(echo({ name: "imran", age: 97 }));
+//  get no ts warning that length prop is not valid, hence the need for generics
+console.log(echo(27).length); // <- not valid
+console.log(echo({ name: "imran", age: 97 })); // <- not valid, get no warning
 
 // Better Generic
 // does not have to be T, can be any character
 // the '<T>' makes it a generic function, give me the type and then i will use it
 // it will infer it from the type of the argument
 function betterEcho<T>(data: T) {
-	return data;
+ return data;
 }
 
 // Generics make it possible for the editors to suggest the correct properties
 // better ide support
 // console.log(betterEcho(27).length);
+
 // you can explicitly state what type you are going to use
 // console.log(betterEcho<number>("27"));
 
@@ -44,17 +45,20 @@ function betterEcho<T>(data: T) {
 
 // testResultz: number[]
 const testResultz: Array<number> = [1.94, 2.33];
+// const testResultz: number[] = [1.94, 2.33];
+
 testResultz.push(-2.99);
-// testResultz.push("strings");
+testResultz.push("strings");
 
 // Arrays
 function printAll<T>(args: T[]) {
-	args.forEach(elements => {
-		console.log(elements);
-	});
+ args.forEach(elements => {
+  console.log(elements);
+ });
 }
 
 printAll<string>(["apple", "banana"]);
+printAll([2, "banana"]); // default to type any <any>
 
 // Generic Types
 // const name : type  = assignment
@@ -83,9 +87,9 @@ console.log(simpleMath.calculate());
 // and not seperate
 // class SimpleMath<T extends U | string, U extends number | string>
 class SimpleMath<T extends number | string, U extends number | string> {
-	baseValue: T;
-	multiplyValue: U;
-	calculate(): number {
-		return +this.baseValue * +this.multiplyValue;
-	}
+ baseValue: T;
+ multiplyValue: U;
+ calculate(): number {
+  return +this.baseValue * +this.multiplyValue;
+ }
 }
