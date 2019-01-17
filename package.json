@@ -1,27 +1,27 @@
 {
-  "name": "udemy-typescript-course",
-  "version": "1.0.0",
-  "description": "Udemy typescript course",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"live-server\" \"tsc --target es6 ./generics.ts -w\"",
-    "build": "tsc ./index.ts -w"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TimeBandit/udemy-typescript-course.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TimeBandit/udemy-typescript-course/issues"
-  },
-  "homepage": "https://github.com/TimeBandit/udemy-typescript-course#readme",
-  "devDependencies": {
-    "eslint": "^5.11.1",
-    "live-server": "^1.2.0"
-  },
-  "dependencies": {}
+ "name": "udemy-typescript-course",
+ "version": "1.0.0",
+ "description": "Udemy typescript course",
+ "main": "index.js",
+ "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "concurrently \"live-server\" \"tsc --target es6 ./decorators.ts -w\"",
+  "build": "tsc ./index.ts -w"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/TimeBandit/udemy-typescript-course.git"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "bugs": {
+  "url": "https://github.com/TimeBandit/udemy-typescript-course/issues"
+ },
+ "homepage": "https://github.com/TimeBandit/udemy-typescript-course#readme",
+ "devDependencies": {
+  "eslint": "^5.11.1",
+  "live-server": "^1.2.0"
+ },
+ "dependencies": {}
 }
