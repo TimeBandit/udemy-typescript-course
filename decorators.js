@@ -12,19 +12,47 @@ function logged(constructorFn) {
     console.log("hi");
     console.log(constructorFn);
 }
-let Person = class Person {
+let Personly = class Personly {
     constructor() {
         console.log("hi");
     }
 };
-Person = __decorate([
+Personly = __decorate([
     logged
-], Person);
+], Personly);
 // FACTORY
 // a user defined function which can be used as a decorator factory
 // this factory conditionally creates factory functions
 function logging(value) {
     return value ? logged : null;
 }
-class Car {
+let Car = class Car {
+};
+Car = __decorate([
+    logging(true) // this conditionally attaches the decorator
+], Car);
+// ADVANCED
+// this adds a print method to the prototype or each object created using this decorator
+function printable(constructorFn) {
+    constructorFn.prototype.print = function () {
+        console.log("Printing this...");
+        if (!this.type)
+            throw new Error('type is undefined on the parent class');
+        console.log(this);
+    };
 }
+let Planty = class Planty {
+    constructor() {
+        this.name = "Green Plant";
+        this.type = 'Fern';
+    }
+};
+Planty = __decorate([
+    logged,
+    printable
+], Planty);
+const my_plant = new Planty();
+// the <any> casting is to get around ts errors
+my_plant.print();
+// MULTIPLE DECORATORS
+// stack them
