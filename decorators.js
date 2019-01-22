@@ -37,14 +37,14 @@ function printable(constructorFn) {
     constructorFn.prototype.print = function () {
         console.log("Printing this...");
         if (!this.type)
-            throw new Error('type is undefined on the parent class');
+            throw new Error("type is undefined on the parent class");
         console.log(this);
     };
 }
 let Planty = class Planty {
     constructor() {
         this.name = "Green Plant";
-        this.type = 'Fern';
+        this.type = "Fern";
     }
 };
 Planty = __decorate([
@@ -56,3 +56,30 @@ const my_plant = new Planty();
 my_plant.print();
 // MULTIPLE DECORATORS
 // stack them
+//  METHOD DECORATORS
+// so far we have only looked at class decorators
+// write a decorator to make a method editable or not
+// it takes different parameters compared to class decorators
+function editable(value) {
+    return function (target, propName, descriptor) {
+        descriptor.prototype.writable = value;
+    };
+}
+class Projecty {
+    constructor(name) {
+        this.projectName = name;
+    }
+    calcBudget() {
+        console.log(1000);
+    }
+}
+__decorate([
+    editable(false)
+], Projecty.prototype, "calcBudget", null);
+const project = new Projecty("Super Project");
+project.calcBudget();
+// the descriptor would mean that the replacing the method below will not work
+project.calcBudget = function () {
+    console.log(2000);
+};
+project.calcBudget();
