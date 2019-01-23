@@ -50,22 +50,35 @@ const my_plant = new Planty();
 // stack them
 
 //  METHOD DECORATORS
-// so far we have only looked at class decorators
-
 // write a decorator to make a method editable or not
 // it takes different parameters compared to class decorators
 function editable(value: boolean) {
  return function(target: any, propName: string, descriptor: PropertyDecorator) {
-  descriptor.prototype.writable = value;
+  // see Object.defineProperty
+  descriptor.writable = value;
  };
 }
+//  PROPERTY DECORATORS
+function overwritable(value: boolean) {
+ return function(target: any, propertyName: string): any {
+  // the old descriptor is not accessable in TS
+  const newDescriptor: PropertyDescriptor = {
+   writable: value
+  };
+  return newDescriptor;
+ };
+}
+// so far we have only looked at class decorators
+
 class Projecty {
+ @overwritable(false)
  projectName: string;
+
  constructor(name: string) {
   this.projectName = name;
  }
 
- @editable(false)
+ //  @editable(false)
  calcBudget() {
   console.log(1000);
  }
@@ -74,9 +87,9 @@ class Projecty {
 const project = new Projecty("Super Project");
 project.calcBudget();
 
-// the descriptor would mean that the replacing the method below will not work
-project.calcBudget = function() {
- console.log(2000);
-};
-
+// the descriptor would mean that the replacing the method below will return an error
+// project.calcBudget = function() {
+//  console.log(2000);
+// };
 project.calcBudget();
+console.log(project);
