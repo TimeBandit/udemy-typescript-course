@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 // decorator is a function you create, they can be attached to a class
 // if you attach a decorator to a class it will get only one argument
 // that is the constructor function of the class
@@ -85,9 +88,6 @@ class Projecty {
         console.log(1000);
     }
 }
-__decorate([
-    overwritable(false)
-], Projecty.prototype, "projectName", void 0);
 const project = new Projecty("Super Project");
 project.calcBudget();
 // the descriptor would mean that the replacing the method below will return an error
@@ -96,3 +96,28 @@ project.calcBudget();
 // };
 project.calcBudget();
 console.log(project);
+// PARAMETER DECORATOR
+function printInfo(target, methodName, paramIndex) {
+    console.log("Target ", target);
+    console.log("Method Name ", methodName);
+    console.log("Parameter Index ", paramIndex);
+}
+class Course {
+    constructor(name) {
+        this.name = name;
+    }
+    printStudentNumbers(mode, printAll) {
+        if (printAll) {
+            console.log(1000);
+        }
+        else {
+            console.log(2000);
+        }
+    }
+}
+__decorate([
+    __param(1, printInfo)
+], Course.prototype, "printStudentNumbers", null);
+const course = new Course("Super Course");
+course.printStudentNumbers("anything", true);
+course.printStudentNumbers("anything", false);

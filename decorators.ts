@@ -71,7 +71,8 @@ function overwritable(value: boolean) {
 // so far we have only looked at class decorators
 
 class Projecty {
- @overwritable(false)
+ // uncomment the below and it will complain
+ //  @overwritable(false)
  projectName: string;
 
  constructor(name: string) {
@@ -93,3 +94,28 @@ project.calcBudget();
 // };
 project.calcBudget();
 console.log(project);
+
+// PARAMETER DECORATOR
+function printInfo(target: any, methodName: string, paramIndex: number) {
+ console.log("Target ", target);
+ console.log("Method Name ", methodName);
+ console.log("Parameter Index ", paramIndex);
+}
+class Course {
+ name: string;
+ constructor(name: string) {
+  this.name = name;
+ }
+
+ printStudentNumbers(mode: string, @printInfo printAll: boolean) {
+  if (printAll) {
+   console.log(1000);
+  } else {
+   console.log(2000);
+  }
+ }
+}
+
+const course = new Course("Super Course");
+course.printStudentNumbers("anything", true);
+course.printStudentNumbers("anything", false);
