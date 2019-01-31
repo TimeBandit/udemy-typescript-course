@@ -51,7 +51,7 @@ describe(SavedSearches.name, function() {
    { searchId: "id456", type: "Design" }
   );
  });
- it("should move a search to the head of the list if already present", () => {
+ it.only("should move a search to the head of the list if already present", () => {
   // setup
   SavedSearches.userId = "harry";
   SavedSearches.saveSearch("id123", "Item");
