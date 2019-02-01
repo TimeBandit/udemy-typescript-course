@@ -48,21 +48,26 @@ export class SavedSearches {
             if (!SavedSearches.userId)
                 throw "No userId set";
             settings = SavedSearches.all;
+            // filter out the new search object if present
             if (settings.hasOwnProperty(SavedSearches.userId)) {
                 currentUserSavedSearches = settings[SavedSearches.userId]["saved-searches"].filter(search => {
                     return searchId !== search.searchId;
                 });
+                // place new search object at the head
                 currentUserSavedSearches.unshift({ searchId, type });
+                // restrict the number of searches saed to 10
                 if (currentUserSavedSearches.length > 10)
                     currentUserSavedSearches.pop();
+                // write the new settings back to local storage
                 settings[SavedSearches.userId]["saved-searches"] = currentUserSavedSearches;
                 localStorage.settings = JSON.stringify(settings);
             }
             else {
+                // create a new user and re-try the save
                 const userSettings = SavedSearches.newSettings();
                 settings[SavedSearches.userId] = userSettings;
                 localStorage.settings = JSON.stringify(settings);
-                SavedSearches.saveSearch(searchId, type); // try saving again
+                SavedSearches.saveSearch(searchId, type);
             }
         }
         catch (error) {
