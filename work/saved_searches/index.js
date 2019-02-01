@@ -20,69 +20,47 @@ export class SavedSearches {
             }
             catch (error) {
                 console.log("Error decoding settings key in localStorage", error);
-                return [];
+                return {};
             }
         }
         else {
             SavedSearches.init();
-            return [];
-        }
-    }
-    // search for a user in the settings object, return its position if found
-    static userIndex(currentUserId, settings) {
-        if (!localStorage.settings) {
-            SavedSearches.init();
-            return -1; // same as what findIndex would return if it fails
-        }
-        else if (!settings.length) {
-            return -1;
-        }
-        else {
-            return settings.findIndex(user => {
-                return user.userId === currentUserId;
-            });
+            return {};
         }
     }
     // create a new user object using the stored userId in the class
-    static makeNewUser() {
+    static newSettings() {
         if (!SavedSearches.userId) {
             throw "Need a userId to create a new user";
         }
         else {
             return {
-                userId: SavedSearches.userId,
-                "customer-projects": [
-                    {
-                        code: "userSettings",
-                        "saved-searches": []
-                    }
-                ]
+                "saved-searches": []
             };
         }
     }
-    // TODO: create a method for fetching the saved searches of desired user
     // TODO: add a timestamp to each item when creating
     // save a search to local storage
     static saveSearch(searchId, type) {
         let settings;
+        let currentUserSavedSearches;
         try {
             if (!SavedSearches.userId)
                 throw "No userId set";
             settings = SavedSearches.all;
-            const position = SavedSearches.userIndex(SavedSearches.userId, settings);
-            console.log(`${SavedSearches.userId} found at `, position);
-            if (position > -1) {
-                // TODO come back to the type warning later, not a problem now
-                settings[position]["customer-projects"][0]["saved-searches"].unshift({ searchId, type });
-                // TODO create a store() method for this
+            if (settings.hasOwnProperty(SavedSearches.userId)) {
+                currentUserSavedSearches = settings[SavedSearches.userId]["saved-searches"].filter(search => {
+                    return searchId !== search.searchId;
+                });
+                currentUserSavedSearches.unshift({ searchId, type });
+                if (currentUserSavedSearches.length > 10)
+                    currentUserSavedSearches.pop();
+                settings[SavedSearches.userId]["saved-searches"] = currentUserSavedSearches;
                 localStorage.settings = JSON.stringify(settings);
             }
             else {
-                console.log("Creating a new user...");
-                const newUser = SavedSearches.makeNewUser();
-                console.log("new user created =>", newUser);
-                settings.push(newUser);
-                console.log("settings are now =>", settings);
+                const userSettings = SavedSearches.newSettings();
+                settings[SavedSearches.userId] = userSettings;
                 localStorage.settings = JSON.stringify(settings);
                 SavedSearches.saveSearch(searchId, type); // try saving again
             }
