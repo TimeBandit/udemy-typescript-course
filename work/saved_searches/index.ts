@@ -1,26 +1,38 @@
 console.log("Loading SavedSearches... 🏃");
 import { SearchType, UserProjectSettings, UserSettings } from "./src/types";
-export abstract class SavedSearches {
- // declaration getters/setters for userid
- private static _userId = "";
+export class SavedSearches {
+ private static instance: SavedSearches;
+ private constructor(public readonly name: string) {}
 
- static get userId(): string {
-  return SavedSearches._userId;
+ // returns the instance
+ static get() {
+  if (!SavedSearches.instance) {
+   SavedSearches.instance = new SavedSearches("ready");
+  }
+  return SavedSearches.instance;
  }
 
- static set userId(id: string) {
-  SavedSearches._userId = id;
+ // declaration getters/setters for userid
+ private _userId = "";
+
+ // getters/setters for userId
+ get userId(): string {
+  return this._userId;
+ }
+
+ set userId(id: string) {
+  this._userId = id;
  }
 
  // create a settings key in local storage if one not found
- static init() {
+ init() {
   if (!localStorage.settings) {
    localStorage.settings = "[]";
   }
  }
 
  // return settings object if present or create it
- static get all(): UserProjectSettings {
+ get all(): UserProjectSettings {
   if (localStorage.settings) {
    try {
     return JSON.parse(localStorage.settings);
@@ -29,14 +41,14 @@ export abstract class SavedSearches {
     return {};
    }
   } else {
-   SavedSearches.init();
+   this.init();
    return {};
   }
  }
 
  // create a new user object using the stored userId in the class
- static newSettings(): UserSettings {
-  if (!SavedSearches.userId) {
+ newSettings(): UserSettings {
+  if (!this.userId) {
    throw "Need a userId to create a new user";
   } else {
    return {
@@ -47,17 +59,17 @@ export abstract class SavedSearches {
 
  // TODO: add a timestamp to each item when creating
  // save a search to local storage
- static saveSearch(searchId: string, type: SearchType) {
+ saveSearch(searchId: string, type: SearchType) {
   let settings: UserProjectSettings;
   let currentUserSavedSearches;
 
   try {
-   if (!SavedSearches.userId) throw "No userId set";
-   settings = SavedSearches.all;
+   if (!this.userId) throw "No userId set";
+   settings = this.all;
 
    // filter out the new search object if present
-   if (settings.hasOwnProperty(SavedSearches.userId)) {
-    currentUserSavedSearches = settings[SavedSearches.userId]["saved-searches"]!.filter(search => {
+   if (settings.hasOwnProperty(this.userId)) {
+    currentUserSavedSearches = settings[this.userId]["saved-searches"]!.filter(search => {
      return searchId !== search.searchId;
     });
 
@@ -65,17 +77,17 @@ export abstract class SavedSearches {
     currentUserSavedSearches!.unshift({ searchId, type });
 
     // restrict the number of searches saed to 10
-    if (currentUserSavedSearches!.length > 10) currentUserSavedSearches!.pop();
+    while (currentUserSavedSearches!.length > 10) currentUserSavedSearches!.pop();
 
     // write the new settings back to local storage
-    settings[SavedSearches.userId]["saved-searches"] = currentUserSavedSearches;
+    settings[this.userId]["saved-searches"] = currentUserSavedSearches;
     localStorage.settings = JSON.stringify(settings);
    } else {
     // create a new user and re-try the save
-    const userSettings = SavedSearches.newSettings();
-    settings[SavedSearches.userId] = userSettings;
+    const userSettings = this.newSettings();
+    settings[this.userId] = userSettings;
     localStorage.settings = JSON.stringify(settings);
-    SavedSearches.saveSearch(searchId, type);
+    this.saveSearch(searchId, type);
    }
   } catch (error) {
    console.log("Woops! ", error);

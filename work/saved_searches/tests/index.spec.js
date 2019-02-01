@@ -13,33 +13,38 @@ describe(SavedSearches.name, function() {
 
  it("should create setting key if not present", () => {
   // setup
-  SavedSearches.init();
+  const ches = SavedSearches.get();
+  console.log(ches);
+
+  ches.init();
   // assert
   assert.hasAnyKeys(localStorage, ["settings"]);
  });
 
  it("should create the default settings object", () => {
   // setup
-  SavedSearches.init();
+  SavedSearches.get().init();
   // assert
   const settings = JSON.parse(localStorage.settings);
   assert.isArray(settings);
  });
  it("should create the user if not present", () => {
   // setup
-  SavedSearches.userId = "harry";
-  SavedSearches.saveSearch("id123", "Item");
-  SavedSearches.userId = "larry";
-  SavedSearches.saveSearch("id456", "Design");
+  const instance = SavedSearches.get();
+  instance.userId = "harry";
+  instance.saveSearch("id123", "Item");
+  instance.userId = "larry";
+  instance.saveSearch("id456", "Design");
   // assert
   assert.hasAllKeys(JSON.parse(localStorage.settings), ["larry", "harry"]);
  });
  it("should store a search against a user", () => {
+  const instance = SavedSearches.get();
   // setup
-  SavedSearches.userId = "harry";
-  SavedSearches.saveSearch("id123", "Item");
-  SavedSearches.userId = "larry";
-  SavedSearches.saveSearch("id456", "Design");
+  instance.userId = "harry";
+  instance.saveSearch("id123", "Item");
+  instance.userId = "larry";
+  instance.saveSearch("id456", "Design");
   // assert
   assert.deepInclude(JSON.parse(localStorage.settings).harry["saved-searches"][0], {
    searchId: "id123",
@@ -52,14 +57,15 @@ describe(SavedSearches.name, function() {
  });
  it("should move a search to the head of the list if already present", () => {
   // setup
-  SavedSearches.userId = "harry";
-  SavedSearches.saveSearch("id123", "Item");
-  SavedSearches.saveSearch("ida", "Design");
-  SavedSearches.saveSearch("idb", "Design");
-  SavedSearches.saveSearch("idc", "Design");
-  SavedSearches.saveSearch("idd", "Design");
-  SavedSearches.saveSearch("ide", "Design");
-  SavedSearches.saveSearch("id123", "Item"); // add this one again
+  const instance = SavedSearches.get();
+  instance.userId = "harry";
+  instance.saveSearch("id123", "Item");
+  instance.saveSearch("ida", "Design");
+  instance.saveSearch("idb", "Design");
+  instance.saveSearch("idc", "Design");
+  instance.saveSearch("idd", "Design");
+  instance.saveSearch("ide", "Design");
+  instance.saveSearch("id123", "Item"); // add this one again
   // assert.
   const actual = JSON.parse(localStorage.settings).harry["saved-searches"][0];
   assert.deepEqual(
@@ -70,19 +76,20 @@ describe(SavedSearches.name, function() {
  });
  it("should have a maximum length of 10", () => {
   // tests that that never more than 10 recent searches are stored
+  const instance = SavedSearches.get();
   // setup
-  SavedSearches.userId = "harry";
-  SavedSearches.saveSearch("id1", "Item");
-  SavedSearches.saveSearch("id2", "Design");
-  SavedSearches.saveSearch("id3", "Design");
-  SavedSearches.saveSearch("id4", "Design");
-  SavedSearches.saveSearch("id5", "Design");
-  SavedSearches.saveSearch("id6", "Design");
-  SavedSearches.saveSearch("id7", "Design");
-  SavedSearches.saveSearch("id8", "Design");
-  SavedSearches.saveSearch("id9", "Design");
-  SavedSearches.saveSearch("id10", "Design");
-  SavedSearches.saveSearch("id11", "Item"); // add this one again
+  instance.userId = "harry";
+  instance.saveSearch("id1", "Item");
+  instance.saveSearch("id2", "Design");
+  instance.saveSearch("id3", "Design");
+  instance.saveSearch("id4", "Design");
+  instance.saveSearch("id5", "Design");
+  instance.saveSearch("id6", "Design");
+  instance.saveSearch("id7", "Design");
+  instance.saveSearch("id8", "Design");
+  instance.saveSearch("id9", "Design");
+  instance.saveSearch("id10", "Design");
+  instance.saveSearch("id11", "Item"); // add this one again
   // assert.
   const savedSearches = JSON.parse(localStorage.settings).harry["saved-searches"];
   assert.lengthOf(savedSearches, 10, "no more than ten saved searches allow for harry");
@@ -94,23 +101,4 @@ describe(SavedSearches.name, function() {
 //     "userid:custprojname":{
 //       "saved-searchs":[],
 //   }
-// }
-
-// {
-//   "settings": [
-//     {
-//       "userId": "",
-//       "customer-projects": [
-//         {
-//           "code": "wahdakhdjkwah",
-//           "saved-searches": [
-//             {
-//               "id": "itemId | designCode | importCode",
-//               "type": "SavedSearchType(Item, Design, Import)"
-//             }
-//           ]
-//         }
-//       ]
-//     }
-//   ]
 // }
